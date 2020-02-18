@@ -2,7 +2,8 @@ package com.javiermarsicano.algorithms.codility;
 
 import org.junit.Test;
 
-import java.util.ArrayList;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
 
@@ -59,35 +60,24 @@ public class PhoneCallsBilling {
 
     public static class Solution {
         static int find(String S) {
-            String[] logs = S.split("\n");
+            Collection<CallLog> callsLog = Arrays.stream(S.split("\n"))
+                    .map(CallLog::new)
+                    .peek(callLog -> callLog.billing = Rule.apply(callLog))
+                    .sorted(Comparator.comparingInt(callLog -> callLog.phoneNumber))
+                    .collect(Collectors.toMap( //a collector that will produce a map
+                            CallLog::getPhoneNumber,    //using phoneNumber as the key to group
+                            x -> x,                  //the item itself as the value
+                            (a, b) -> {              //and a merge function that returns an object with combined billing
+                                a.billing += b.billing;
+                                return a;
+                            }))
+                    .values().stream()
+                    .sorted(Comparator.comparingInt(callLog -> callLog.billing))
+                    .collect(Collectors.toList());
 
-            ArrayList<CallLog> callLogs = new ArrayList<>();
-
-            for (String l :logs){
-                callLogs.add(new CallLog(l));
-            }
-
-            callLogs.sort((callLog, t1) -> callLog.phoneNumber - t1.phoneNumber);
-            callLogs.forEach(callLog -> callLog.billing = Rule.apply(callLog));
-
-
-            int out = 0;
-            for (int i = 0; i< callLogs.size() -1 ;i++) {
-                if (callLogs.get(i).phoneNumber == callLogs.get(i+1).phoneNumber) {
-                    callLogs.get(i).billing += callLogs.get(i+1).billing;
-                    callLogs.remove(i+1);
-                }
-            }
-
-            callLogs.sort((callLog, t1) -> callLog.billing - t1.billing); //FALTO
-            callLogs.remove(callLogs.size() - 1); //ESTABA ANTES DEL BUCLE
-
-
-            for (CallLog callLog : callLogs) {
-                out += callLog.billing;
-            }
-
-            return out;
+            return callsLog.stream().limit(callsLog.size()-1)
+                    .map(callLog -> callLog.billing)
+                    .reduce(Integer::sum).get();
         }
 
         static class CallLog {
@@ -102,10 +92,14 @@ public class PhoneCallsBilling {
             CallLog(String log) {
                 String[] entry = log.split(",");
                 String[] time = entry[0].split(":");
-                hours = Integer.valueOf(time[0]);
-                minutes = Integer.valueOf(time[1]);
-                seconds = Integer.valueOf(time[2]);
-                phoneNumber = Integer.valueOf(entry[1].replace("-",""));
+                hours = Integer.parseInt(time[0]);
+                minutes = Integer.parseInt(time[1]);
+                seconds = Integer.parseInt(time[2]);
+                phoneNumber = Integer.parseInt(entry[1].replace("-",""));
+            }
+
+            public int getPhoneNumber() {
+                return phoneNumber;
             }
 
             @Override
