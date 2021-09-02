@@ -3,6 +3,13 @@ package com.javiermarsicano.algorithms.hackerrank;
 import java.util.HashMap;
 import java.util.Scanner;
 
+/**
+ Implement two operations:
+ 1. add name, where  is a string denoting a contact name. This must store  as a new contact in the application.
+ 2. find partial, where  is a string denoting a partial name to search the application for. It must count the number of contacts starting with  and print the count on a new line.
+ Given  sequential add and find operations, perform each operation in order.
+ */
+
 public class Contacts {
 
 	static class Node {
@@ -10,7 +17,7 @@ public class Contacts {
 		boolean isCompleteWord;
 		
 		public Node() {
-			children = new HashMap<Character, Node>();
+			children = new HashMap<>();
 		}		
 	}
 	
@@ -22,7 +29,7 @@ public class Contacts {
 			if (name.length() == 1) {
 				root.isCompleteWord = true;
 			}
-			add(name.substring(1, name.length()), root.children.get(name.charAt(0)));
+			add(name.substring(1), root.children.get(name.charAt(0)));
 		}
 	}
 	
@@ -47,7 +54,7 @@ public class Contacts {
 			if (!root.children.containsKey(name.charAt(0))) {
 				return 0;
 			} else {
-				return find(name.substring(1, name.length()), root.children.get(name.charAt(0)));
+				return find(name.substring(1), root.children.get(name.charAt(0)));
 			}
 		}
 	}
