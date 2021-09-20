@@ -40,11 +40,20 @@ class MaxProfitTest {
 
     @Test
     fun `test complex case`() {
-        val array = listOf(11,12,3,6,5,9,7,2,4)
+        val array = listOf(13,12,3,6,5,9,7,2,4)
 
         val result = find(array.toIntArray())
 
         assertEquals(6, result)
+    }
+
+    @Test
+    fun `test trivial no profit case`() {
+        val array = listOf(7,5)
+
+        val result = find(array.toIntArray())
+
+        assertEquals(0, result)
     }
 
     @Test
@@ -85,6 +94,8 @@ class MaxProfitTest {
                 if (A[i] < min) {
                     min = A[i]
                     minIndex = i
+                    max = 0
+                    maxIndex = 0
                 }
                 if (minIndex < maxIndex) {
                     val profit = max - min
@@ -94,7 +105,6 @@ class MaxProfitTest {
                     }
                 }
             }
-
             return maxProfit
         }
     }
