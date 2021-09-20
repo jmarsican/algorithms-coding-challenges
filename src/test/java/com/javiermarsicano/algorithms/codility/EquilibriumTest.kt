@@ -5,6 +5,24 @@ import org.junit.Test
 
 class EquilibriumTest {
     @Test
+    fun `test trivial case`(){
+        val array = listOf(3,0,3)
+
+        val result = Equilibrium.find(array)
+
+        assertEquals(1, result)
+    }
+
+    @Test
+    fun `test edge case`(){
+        val array = listOf(0,8,777,1,1,1,1,2,2)
+
+        val result = Equilibrium.find(array)
+
+        assertEquals(2, result)
+    }
+
+    @Test
     fun `test simple equilibrium case`(){
         val array = listOf(2,3,-1,4,6,5,3,0)
 
