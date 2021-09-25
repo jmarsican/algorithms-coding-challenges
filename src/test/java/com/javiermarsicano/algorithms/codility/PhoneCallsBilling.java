@@ -70,8 +70,6 @@ public class PhoneCallsBilling {
             callLogs.sort((callLog, t1) -> callLog.phoneNumber - t1.phoneNumber);
             callLogs.forEach(callLog -> callLog.billing = Rule.apply(callLog));
 
-
-            int out = 0;
             for (int i = 0; i< callLogs.size() -1 ;i++) {
                 if (callLogs.get(i).phoneNumber == callLogs.get(i+1).phoneNumber) {
                     callLogs.get(i).billing += callLogs.get(i+1).billing;
@@ -82,11 +80,10 @@ public class PhoneCallsBilling {
             callLogs.sort((callLog, t1) -> callLog.billing - t1.billing); //FALTO
             callLogs.remove(callLogs.size() - 1); //ESTABA ANTES DEL BUCLE
 
-
+            int out = 0;
             for (CallLog callLog : callLogs) {
                 out += callLog.billing;
             }
-
             return out;
         }
 
@@ -102,10 +99,10 @@ public class PhoneCallsBilling {
             CallLog(String log) {
                 String[] entry = log.split(",");
                 String[] time = entry[0].split(":");
-                hours = Integer.valueOf(time[0]);
-                minutes = Integer.valueOf(time[1]);
-                seconds = Integer.valueOf(time[2]);
-                phoneNumber = Integer.valueOf(entry[1].replace("-",""));
+                hours = Integer.parseInt(time[0]);
+                minutes = Integer.parseInt(time[1]);
+                seconds = Integer.parseInt(time[2]);
+                phoneNumber = Integer.parseInt(entry[1].replace("-",""));
             }
 
             @Override
