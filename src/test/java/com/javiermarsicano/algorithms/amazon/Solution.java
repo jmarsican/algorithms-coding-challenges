@@ -11,10 +11,28 @@ import static org.junit.Assert.assertEquals;
 public class Solution
 {
 
+    @NotNull
+    private List<List<Integer>> getGridWithZeroes(int rows, int cols) {
+        List<List<Integer>> grid = new ArrayList<>();
+        for (int i = 0; i < rows; i++) {
+            grid.add(new ArrayList<>());
+            for (int j = 0; j < cols; j++) {
+                grid.get(i).add(0);
+            }
+        }
+        return grid;
+    }
+
     @Test
     public void testStores() {
         List<List<Integer>> grid = getGridWithZeroes(5, 4);
-
+        /*
+        0 0 0 0
+        0 0 1 1
+        0 0 0 0
+        0 1 1 0
+        0 0 0 0
+         */
         grid.get(1).set(2,1);
         grid.get(1).set(3,1);
         grid.get(3).set(2,1);
@@ -28,7 +46,13 @@ public class Solution
     @Test
     public void testStores2() {
         List<List<Integer>> grid = getGridWithZeroes(5, 4);
-
+        /*
+        1 1 0 0
+        0 0 1 0
+        0 0 0 0
+        0 0 1 1
+        1 1 1 1
+         */
         grid.get(0).set(0,1);
         grid.get(0).set(1,1);
         grid.get(1).set(2,1);
@@ -48,7 +72,13 @@ public class Solution
     @Test
     public void testServers() {
         List<List<Integer>> grid = getGridWithZeroes(4, 5);
-
+        /*
+        0 0 0 0
+        1 1 0 1
+        1 0 0 0
+        0 1 0 0
+        1 0 1 0
+         */
         grid.get(0).set(1,1);
         grid.get(0).set(2,1);
         grid.get(0).set(4,1);
@@ -60,18 +90,6 @@ public class Solution
         int days = minimumDays(grid.size(), grid.get(0).size(), grid);
 
         assertEquals(2, days);
-    }
-
-    @NotNull
-    private List<List<Integer>> getGridWithZeroes(int rows, int cols) {
-        List<List<Integer>> grid = new ArrayList<>();
-        for (int i = 0; i < rows; i++) {
-            grid.add(new ArrayList<>());
-            for (int j = 0; j < cols; j++) {
-                grid.get(i).add(0);
-            }
-        }
-        return grid;
     }
 
     /**

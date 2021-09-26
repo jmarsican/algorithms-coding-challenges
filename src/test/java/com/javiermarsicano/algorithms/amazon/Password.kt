@@ -26,7 +26,7 @@ class Password {
     }
 
     @Test
-    fun `tivial case`() {
+    fun `trivial case`() {
         val password = "t"
 
         val strength = findPasswordStrength(password)
