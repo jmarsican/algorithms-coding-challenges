@@ -1,6 +1,6 @@
 package com.javiermarsicano.algorithms.amazon
 
-import junit.framework.Assert.assertEquals
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
 /*
@@ -56,16 +56,12 @@ class Password {
     fun findPasswordStrength(password: String): Long {
         // Write your code here
         var sum = 0L
-        var subSize = 1
-        while (subSize <= password.length) {
+        for (subSize in 1..password.length) {
             val characters = mutableSetOf<Char>()
-            var index = 0
-            while (index < password.length - subSize + 1) {
-                characters.add(password[index + subSize - 1 ])
+            for (index in 0 until password.length - subSize + 1) {
+                characters.add(password[index + subSize - 1])
                 sum += characters.size.toLong()
-                index++
             }
-            subSize++
         }
         return sum
     }
